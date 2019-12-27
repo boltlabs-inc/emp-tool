@@ -178,6 +178,16 @@ inline string Integer::reveal<string>(int party) const {
 	return bin_to_dec(bin);
 }
 
+inline string Integer::reveal_unsigned(int party, int base) const {
+    bool * b = new bool[length];
+    ProtocolExecution::prot_exec->reveal(b, party, (block *)bits,  length);
+    string bin="";
+    for(int i = length-1; i >= 0; --i)
+        bin += (b[i]? '1':'0');
+    delete [] b;
+    return change_base(bin,2,base);
+}
+
 template<>
 inline int32_t Integer::reveal<int32_t>(int party) const {
 	string s = reveal<string>(party);
@@ -337,7 +347,6 @@ inline Integer Integer::operator-(const Integer& rhs) const {
 	return res;
 }
 
-
 inline Integer Integer::operator*(const Integer& rhs) const {
 	assert(size() == rhs.size());
 	Integer res(*this);
@@ -369,6 +378,14 @@ inline Integer Integer::operator%(const Integer& rhs) const {
 inline Integer Integer::operator-() const {
 	return Integer(size(), 0, PUBLIC)-(*this);
 }
+
+inline Integer Integer::operator~() const {
+    Integer res(*this);
+    for(int i = 0; i < size(); ++i)
+        res.bits[i] = !res.bits[i];
+    return res;
+}
+
 
 //Others
 inline Integer Integer::leading_zeros() const {
