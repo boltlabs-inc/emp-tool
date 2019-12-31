@@ -140,7 +140,18 @@ inline void init(Bit * bits, const bool* b, int length, int party) {
   init(bits,b,length, party);
   }*/
 
-inline Integer::Integer(int len, const string& str, int party) : length(len) {
+inline Integer::Integer(int len, const string& str, int party, bool validate) : length(len) {
+    if (party == PUBLIC and validate) {
+      // TODO: can we do this without creating Integers from scratch? 
+      // Can both parties send the value string and assert that they're equal?
+
+      // make ints without validation
+      Integer a_check(len, str, ALICE);
+      Integer b_check(len,str, BOB);
+      // assert equality
+      Bit check_eq = a_check.equal(b_check);
+      assert( check_eq.reveal<bool>() );
+    }
 	bool* b = new bool[len];
 	bool_data(b, len, str);
 	bits = new Bit[length];
@@ -148,8 +159,8 @@ inline Integer::Integer(int len, const string& str, int party) : length(len) {
 	delete[] b;
 }
 
-inline Integer::Integer(int len, long long input, int party)
-	: Integer(len, std::to_string(input), party) {
+inline Integer::Integer(int len, long long input, int party, bool validate)
+	: Integer(len, std::to_string(input), party, validate) {
 	}
 
 inline Integer Integer::select(const Bit & select, const Integer & a) const{

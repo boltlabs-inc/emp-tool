@@ -37,8 +37,8 @@ class Integer : public Swappable<Integer>, public Comparable<Integer> { public:
 		if (bits!=nullptr) delete[] bits;
 	}
 
-	Integer(int length, const string& str, int party = PUBLIC);
-	Integer(int length, long long input, int party = PUBLIC);
+	Integer(int length, const string& str, int party = PUBLIC, bool validate=false);
+	Integer(int length, long long input, int party = PUBLIC, bool validate=false);
 	Integer() :length(0),bits(nullptr){ }
 
 //Comparable
