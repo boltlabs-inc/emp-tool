@@ -6,6 +6,7 @@
 #include "emp-tool/io/mem_io_channel.h"
 #include "emp-tool/io/net_io_channel.h"
 #include "emp-tool/io/unixnet_io_channel.h"
+#include "emp-tool/io/lndnet_io_channel.h"
 #include "emp-tool/io/abandon_io_channel.h"
 
 #include "emp-tool/circuits/batcher.h"

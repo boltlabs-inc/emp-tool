@@ -7,7 +7,7 @@ int main(int argc, char** argv) {
 	int port, party;
 	parse_party_and_port(argv, 2, &party, &port);
 	bool is_server = (port == 0 && party == ALICE) ? true : false;
-	UnixNetIO * io = new LndNetIO(123456, is_server);
+	LndNetIO * io = new LndNetIO(123456, is_server);
 
 	if(party == ALICE) {
 		for (long long length = 2; length <= 8192*16; length*=2) {

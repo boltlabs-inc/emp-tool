@@ -2,7 +2,7 @@
 #define LND_NETWORK_IO_CHANNEL
 
 #include "emp-tool/io/io_channel.h"
-#include "go_io_channel.h"
+#include "emp-tool/io/go_io_channel.h"
 
 using std::string;
 
@@ -14,8 +14,8 @@ namespace emp {
 class LndNetIO: public IOChannel<LndNetIO> {
 public:
 	bool is_server;
-    long long peer_ptr;
-	LndNetIO(long long peer_ptr, bool is_server, bool quiet = false) {
+    size_t peer_ptr;
+	LndNetIO(size_t peer_ptr, bool is_server, bool quiet = false) {
 	    this->is_server = is_server;
 	    this->peer_ptr = peer_ptr;
 	}
@@ -27,21 +27,20 @@ public:
 		} else {
 			recv_data(&tmp, 1);
 			send_data(&tmp, 1);
-			flush();
 		}
 	}
 
-	~NetIO() {
+	~LndNetIO() {
 
 	}
 
 	void send_data(const void * data, int len) {
-		Send(data, len, peer_ptr);
+		Send((char *) data, len, (GoUintptr) peer_ptr);
 	}
 
 	void recv_data(void  * data, int len) {
-		recv_msg = Receive(peer_ptr);
-		*data = recv_msg.r0;
+		Receive_return recv_msg = Receive((GoUintptr) peer_ptr);
+		data = recv_msg.r0;
 		len = recv_msg.r1;
 	}
 };
