@@ -34,6 +34,8 @@ public:
 
 	}
 
+	void flush() { }
+
 	void send_data(const void * data, int len) {
 		Send((char *) data, len, (GoUintptr) peer_ptr);
 	}
