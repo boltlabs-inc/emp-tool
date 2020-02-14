@@ -28,7 +28,8 @@ find_library(EMP-TOOL_LIBRARY NAMES emp-tool)
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(EMP-TOOL DEFAULT_MSG EMP-TOOL_INCLUDE_DIR EMP-TOOL_LIBRARY)
 
-find_library(GO_IO_CHANNEL go_io_channel.so)
+find_library(GO_IO_CHANNEL NAMES go_io_channel)
+MESSAGE(STATUS "GO_IO_CHANNEL lib: " ${GO_IO_CHANNEL} )
 
 add_definitions(-DEMP_CIRCUIT_PATH=${EMP-TOOL_INCLUDE_DIR}/emp-tool/circuits/files/)
 if(EMP-TOOL_FOUND)

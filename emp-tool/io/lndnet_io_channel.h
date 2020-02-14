@@ -2,7 +2,7 @@
 #define LND_NETWORK_IO_CHANNEL
 
 #include "emp-tool/io/io_channel.h"
-#include "emp-tool/io/go_io_channel.h"
+#include "emp-tool/io/libgo_io_channel.h"
 
 using std::string;
 
