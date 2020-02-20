@@ -12,10 +12,6 @@ find_package(GMP REQUIRED)
 find_package(Boost REQUIRED COMPONENTS system)
 include_directories(${OPENSSL_INCLUDE_DIR} ${Boost_INCLUDE_DIRS} ${GMP_INCLUDE_DIR})
 
-find_library(GO_IO_CHANNEL NAMES go_io_channel)
-MESSAGE(STATUS "GO_IO_CHANNEL lib: " ${GO_IO_CHANNEL} )
-
-
 # Installation
 set(sources
 emp-tool/emp-tool.cpp
@@ -37,7 +33,6 @@ emp-tool/circuits/float32_log2.cpp
 )
 
 add_library(${NAME} SHARED ${sources})
-target_link_libraries(${NAME} ${GO_IO_CHANNEL})
 
 install(DIRECTORY emp-tool DESTINATION include/)
 install(DIRECTORY cmake/ DESTINATION cmake/)
@@ -54,8 +49,6 @@ add_test(prp)
 add_test(com)
 add_test(netio)
 add_test(unixnetio)
-add_executable(lndnetio "test/lndnetio.cpp")
-target_link_libraries(lndnetio ${NAME} ${GO_IO_CHANNEL})
 add_test(bit)
 add_test(ecc)
 add_test(int)

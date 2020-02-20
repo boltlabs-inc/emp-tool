@@ -6,6 +6,9 @@
 
 using std::string;
 
+typedef Receive_return (*cb_receive)(void*);
+typedef char* (*cb_send)(void*, int, void*);
+
 namespace emp {
 
 /** @addtogroup IO
@@ -14,10 +17,14 @@ namespace emp {
 class LndNetIO: public IOChannel<LndNetIO> {
 public:
 	bool is_server;
-    size_t peer_ptr;
-	LndNetIO(size_t peer_ptr, bool is_server, bool quiet = false) {
+    void* peer_ptr;
+    cb_receive recv;
+    cb_send send;
+	LndNetIO(void* peer_ptr, cb_receive recv, cb_send send, bool is_server, bool quiet = false) {
 	    this->is_server = is_server;
 	    this->peer_ptr = peer_ptr;
+	    this->recv = recv;
+	    this->send = send;
 	}
 	void sync() {
 		int tmp = 0;
@@ -37,11 +44,11 @@ public:
 	void flush() { }
 
 	void send_data(const void * data, int len) {
-		Send((char *) data, len, (GoUintptr) peer_ptr);
+		send((char *) data, len, peer_ptr);
 	}
 
 	void recv_data(void  * data, int len) {
-		Receive_return recv_msg = Receive((GoUintptr) peer_ptr);
+		Receive_return recv_msg = recv(peer_ptr);
 		data = recv_msg.r0;
 		len = recv_msg.r1;
 	}

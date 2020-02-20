@@ -69,7 +69,7 @@ extern "C" {
 #endif
 
 
-extern char* Send(char* p0, int p1, GoUintptr p2);
+extern char* Send(char* p0, int p1, void* p2);
 
 /* Return type for Receive */
 struct Receive_return {
@@ -78,7 +78,7 @@ struct Receive_return {
 	char* r2; /* errStr */
 };
 
-extern struct Receive_return Receive(GoUintptr p0);
+extern struct Receive_return Receive(void* p0);
 
 #ifdef __cplusplus
 }
