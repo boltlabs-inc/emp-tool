@@ -151,3 +151,10 @@ inline void int64_to_bool(bool * data, uint64_t input, int length) {
 		input >>= 1;
 	}
 }
+
+inline void int32_to_bool(bool * data, uint32_t input, int length) {
+	for (int i = 0; i < length; ++i) {
+		data[i] = (input & 1)==1;
+		input >>= 1;
+	}
+}

@@ -141,17 +141,17 @@ inline void init(Bit * bits, const bool* b, int length, int party) {
   }*/
 
 inline Integer::Integer(int len, const string& str, int party, bool validate) : length(len) {
-    if (party == PUBLIC and validate) {
-      // TODO: can we do this without creating Integers from scratch? 
-      // Can both parties send the value string and assert that they're equal?
-
-      // make ints without validation
-      Integer a_check(len, str, ALICE);
-      Integer b_check(len,str, BOB);
-      // assert equality
-      Bit check_eq = a_check.equal(b_check);
-      assert( check_eq.reveal<bool>() );
-    }
+//    if (party == PUBLIC and validate) {
+//      // TODO: can we do this without creating Integers from scratch?
+//      // Can both parties send the value string and assert that they're equal?
+//
+//      // make ints without validation
+//      Integer a_check(len, str, ALICE);
+//      Integer b_check(len,str, BOB);
+//      // assert equality
+//      Bit check_eq = a_check.equal(b_check);
+//      assert( check_eq.reveal<bool>() );
+//    }
 	bool* b = new bool[len];
 	bool_data(b, len, str);
 	bits = new Bit[length];
