@@ -133,6 +133,15 @@ t bool_to_int(const bool * data, size_t len) {
 	else return res;
 }
 
+inline uint32_t bool_to32(const bool * data) {
+	uint64_t res = 0;
+	for(int i = 0; i < 32; ++i) {
+		if(data[i])
+			res |= (1ULL<<i);
+	}
+	return res;
+}
+
 inline uint64_t bool_to64(const bool * data) {
 	uint64_t res = 0;
 	for(int i = 0; i < 64; ++i) {
