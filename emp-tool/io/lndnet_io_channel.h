@@ -25,7 +25,10 @@ namespace emp {
         cb_send send;
         uint64_t counter = 0;
         char * buffer = nullptr;
+        char * recv_buffer = nullptr;
         int buffer_ptr = 0;
+        int recv_buffer_ptr = 0;
+        int received_ptr = 0;
         int buffer_cap = NETWORK_BUFFER_SIZE;
         bool has_send = false;
         LndNetIO(void* peer_ptr, cb_send send, cb_receive recv, bool is_server, bool quiet = false) {
@@ -34,6 +37,7 @@ namespace emp {
             this->recv = recv;
             this->send = send;
             buffer = new char[buffer_cap];
+            recv_buffer = new char[buffer_cap];
             if(!quiet)
                 std::cout << "connected\n";
         }
@@ -52,18 +56,16 @@ namespace emp {
         ~LndNetIO() {
             flush();
             delete[] buffer;
+            delete[] recv_buffer;
         }
 
         void flush() {
-            (*send)(buffer, buffer_ptr, peer_ptr);
+            if (buffer_ptr != 0)
+                (*send)(buffer, buffer_ptr, peer_ptr);
             buffer_ptr = 0;
         }
 
         void send_data(const void * data, int len) {
-            for (int i = 0; i < len; i++) {
-                printf("%u ", ((char*)data)[i]);
-            }
-            printf("\n");
             counter += len;
             if (len >= buffer_cap) {
                 if(has_send) {
@@ -86,20 +88,22 @@ namespace emp {
                 flush();
             }
             has_send = false;
-            while(sent < len) {
-                Receive_return recv_msg = (*recv)(peer_ptr);
-                int res = recv_msg.r1;
-                memcpy(sent + (char*) data, recv_msg.r0, res);
-//                int res = s.read_some(boost::asio::buffer(sent + (char *)data, len - sent));
-                if (res >= 0)
-                    sent += res;
-                else
-                    fprintf(stderr,"error: net_send_data %d\n", res);
+            while (sent < len) {
+                int prev_sent = sent;
+                if (len-sent > received_ptr - recv_buffer_ptr) {
+                    Receive_return recv_msg = (*recv)(peer_ptr);
+                    int res = recv_msg.r1;
+                    memcpy(recv_buffer, recv_msg.r0, res);
+                    received_ptr += res;
+                }
+                sent += received_ptr - recv_buffer_ptr;
+                memcpy(prev_sent + (char*) data, recv_buffer+recv_buffer_ptr, len-prev_sent);
+                recv_buffer_ptr += len-prev_sent;
+                if (recv_buffer_ptr == received_ptr) {
+                    recv_buffer_ptr = 0;
+                    received_ptr = 0;
+                }
             }
-            for (int i = 0; i < len; i++) {
-                printf("%u ", ((char*)data)[i]);
-            }
-            printf("\n");
         }
     };
 
