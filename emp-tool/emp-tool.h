@@ -8,6 +8,7 @@
 #include "emp-tool/io/gonet_io_channel.h"
 #include "emp-tool/io/unixnet_io_channel.h"
 #include "emp-tool/io/abandon_io_channel.h"
+#include "emp-tool/io/lndnet_io_channel.h"
 
 #include "emp-tool/circuits/batcher.h"
 #include "emp-tool/circuits/bit.h"
