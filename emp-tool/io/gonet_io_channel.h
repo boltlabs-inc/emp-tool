@@ -64,6 +64,10 @@ public:
 		fflush(stream);
 	}
 
+    void duplicate(void * io, int id) {
+        io = new GoNetIO(stream, is_server);
+    }
+
 	void send_data(const void * data, int len) {
 		counter += len;
 		int sent = 0;

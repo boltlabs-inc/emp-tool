@@ -119,6 +119,10 @@ class NetIO: public IOChannel<NetIO> { public:
 		fflush(stream);
 	}
 
+    NetIO* duplicate(int id) {
+        return new NetIO(is_server?nullptr:addr.c_str(), port+2*id+1, true);
+    }
+
 	void send_data(const void * data, int len) {
 		counter += len;
 		int sent = 0;
@@ -223,6 +227,10 @@ public:
 		boost::asio::write(s, boost::asio::buffer(buffer, buffer_ptr));
 		buffer_ptr = 0;
 	}
+
+    NetIO* duplicate(int id) {
+        return new NetIO(is_server?nullptr:addr.c_str(), port+2*id+1, true);
+    }
 
 	void send_data(const void * data, int len) {
 		counter += len;

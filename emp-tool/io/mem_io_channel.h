@@ -55,6 +55,10 @@ class MemIO: public IOChannel<MemIO> { public:
 			fprintf(stderr,"error: mem_recv_data\n");
 		}
 	}
+
+    MemIO* duplicate(int id) {
+        return new MemIO();
+    }
 };
 /**@}*/
 }

@@ -67,6 +67,10 @@ class FileIO: public IOChannel<FileIO> { public:
 				fprintf(stderr,"error: file_recv_data %d\n", res);
 		}
 	}
+
+    void duplicate(void * io, int id) {
+//        io = new FileIO(read);
+    }
 };
 /**@}*/
 }

@@ -17,6 +17,10 @@ class AbandonIO: public IOChannel<AbandonIO> { public:
 
 	void recv_data(void  * data, int len) {
 	}
+
+    AbandonIO* duplicate(int id) {
+	    return new AbandonIO();
+    }
 };
 }
 /**@}*/

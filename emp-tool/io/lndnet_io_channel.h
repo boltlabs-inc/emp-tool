@@ -105,6 +105,10 @@ namespace emp {
                 }
             }
         }
+
+        LndNetIO* duplicate(int id) {
+            return new LndNetIO(peer_ptr, send, recv, is_server);
+        }
     };
 
 }

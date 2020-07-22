@@ -19,6 +19,10 @@ public:
 		derived().recv_data(data, nbyte);
 	}
 
+	T* duplicate(int id) {
+	    return derived().duplicate(id);
+	}
+
 	void send_block(const block* data, int nblock) {
 		send_data(data, nblock*sizeof(block));
 	}

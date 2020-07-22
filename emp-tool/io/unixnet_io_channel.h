@@ -249,6 +249,11 @@ public:
                 fprintf(stderr,"error: net_send_data %d\n", res);
         }
     }
+
+    UnixNetIO* duplicate(int id) {
+	    return this;
+//        io = new UnixNetIO(socket_path, is_server);
+    }
 };
 
 }

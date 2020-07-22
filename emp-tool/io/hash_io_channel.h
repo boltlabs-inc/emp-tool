@@ -12,6 +12,10 @@ class HashIO: public IOChannel<HashIO>{ public:
 	HashIO(NetIO * _netio ) {
 		this->netio = _netio;
 	}
+
+    HashIO* duplicate(int id) {
+        return new HashIO(new NetIO(netio->is_server?nullptr:netio->addr.c_str(), netio->port+2*id+1, true));
+    }
 	void send_data(const void * data, int len) {
 		h.put(data, len);
 	}

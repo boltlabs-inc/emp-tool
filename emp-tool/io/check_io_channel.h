@@ -44,6 +44,9 @@ class CheckIO: public IOChannel<CheckIO> { public:
 		memcpy(buffer+check_size, data, len);
 		check_size += len;
 	}
+    CheckIO* duplicate(int id) {
+        return new CheckIO(new NetIO(netio->is_server?nullptr:netio->addr.c_str(), netio->port+2*id+1, true));
+    }
 };
 }
 /**@}*/
