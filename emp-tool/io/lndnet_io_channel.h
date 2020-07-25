@@ -2,15 +2,7 @@
 #define LND_NETWORK_IO_CHANNEL
 
 #include "emp-tool/io/io_channel.h"
-
-struct Receive_return {
-    char* r0; /* msg */
-    int r1; /* length */
-    char* r2; /* errStr */
-};
-
-typedef Receive_return (*cb_receive)(void*);
-typedef char* (*cb_send)(void*, int, void*);
+#include "emp-tool/io/net_callback.h"
 
 namespace emp {
 
