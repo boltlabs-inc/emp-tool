@@ -7,7 +7,8 @@ struct Receive_return {
     char* r2; /* errStr */
 };
 
-typedef Receive_return (*cb_receive)(void*);
-typedef char* (*cb_send)(void*, int, void*);
+typedef Receive_return (*cb_receive)(void*, int);
+typedef char* (*cb_send)(void*, int, void*, int);
+typedef void* (*cb_duplicate)(void*);
 
 #endif // NET_CALLBACK_H
